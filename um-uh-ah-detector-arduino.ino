@@ -1,3 +1,113 @@
+//MAIK CODE
+//General-----------------
+
+int uhm_count = 0;
+
+//Button
+
+const int BUTTON_PIN = 12;
+int currentState;
+int lastState = HIGH;
+bool pressed = false;
+
+//Poti
+int potPin = 6;
+int potiVal = 0;
+
+//Seven Segment Display
+#include "SevSegShift.h"
+
+#define SHIFT_PIN_SHCP 10
+#define SHIFT_PIN_STCP 9
+#define SHIFT_PIN_DS   6
+
+/* Instantiate a seven segment controller object with:
+  - segment pins controlled via 1 shift register and
+  - digit pins connected to the Arduino directly
+*/
+SevSegShift sevseg(SHIFT_PIN_DS, SHIFT_PIN_SHCP, SHIFT_PIN_STCP, 1, true);
+
+
+//Servo
+#include <Servo.h>
+
+bool run_servo = false;
+
+class BellServo
+{
+    Servo servo;              // the servo
+    int pos;              // current servo position
+    int increment;        // increment to move for each interval
+    unsigned long  updateInterval;      // interval between updates
+    unsigned long lastUpdate; // last update of position
+    bool cycle_ended = false;
+    unsigned long cycleInterval = 1000;
+    unsigned long lastCycleUpdate = 0;
+
+  public:
+    BellServo(unsigned long interval)
+    {
+      updateInterval = interval;
+      increment = 1; //20
+    }
+
+    void Attach(int pin)
+    {
+      servo.attach(pin);
+    }
+
+    void Detach()
+    {
+      servo.detach();
+    }
+
+    void Update()
+    {
+      if (run_servo && potiVal > 600) {
+
+        if ((millis() - lastUpdate) > updateInterval) {
+          lastUpdate = millis();
+          servo.write(80);
+        } else {
+          servo.write(0);
+        }
+
+        if ((millis() - lastCycleUpdate) > cycleInterval) {
+          lastCycleUpdate = millis();
+          run_servo = false;
+        }
+        /*
+        if ((millis() - lastUpdate) > updateInterval) {
+          lastUpdate = millis();
+          pos += increment;
+          servo.write(0);
+          //Serial.println(pos);
+          if (pos >= 0) // end of sweep
+          {
+            // reverse direction
+            increment = -increment;
+            cycle_ended = true;
+            servo.write(80);
+          }
+          if (pos <= 0 && cycle_ended == true) // end of sweep
+          {
+            // reverse direction
+            increment = -increment;
+            run_servo = false;
+            cycle_ended = false;
+          }
+        }*/
+        
+      } else {
+        lastCycleUpdate = millis();
+      }
+    }
+};
+
+BellServo bellservo(1000);
+
+//--------------------------
+
 // LEDs
 #define PIN_LED     (13u)
 #define LED_BUILTIN PIN_LED
@@ -43,6 +153,12 @@ void setup()
     // put your setup code here, to run once:
     Serial.begin(115200);
 
+    //---------MAIK----------------
+    setupSevsegDisplay();
+    setupServo();
+    setupButton();
+    //-----------------------------
+
     Serial.println("Edge Impulse Inferencing Demo");
 
     // summary of inferencing settings (from model_metadata.h)
@@ -65,6 +181,15 @@ void setup()
  */
 void loop()
 {
+    //-------------MAIK-------------
+    displayLoop();
+    servoLoop();
+    buttonLoop();
+
+    potiVal = analogRead(potPin);
+    //------------------------------
+
+    
     bool m = microphone_inference_record();
     if (!m) {
         ei_printf("ERR: Failed to record audio...\n");
@@ -88,6 +213,7 @@ void loop()
         float filler_classification = result.classification[0].value;
         if (filler_classification > 0.6) {
           Serial.println("FILLER DETECTED");
+          run_servo = true;
           digitalWrite(LEDR, LOW);
           digitalWrite(LEDG, LOW);
           digitalWrite(LEDB, LOW);
@@ -262,3 +388,59 @@ static void microphone_inference_end(void)
 #if !defined(EI_CLASSIFIER_SENSOR) || EI_CLASSIFIER_SENSOR != EI_CLASSIFIER_SENSOR_MICROPHONE
 #error "Invalid model for current sensor."
 #endif
+
+//---------MAIK--------------//
+//---------------------------//
+//---SEVEN SEGMENT DISPLAY---//
+
+void setupSevsegDisplay() {
+
+  byte numDigits = 4;
+  byte digitPins[] = {2, 3, 4, 5}; //{2, 3, 4, 5}; // These are the PINS of the ** Arduino **
+  byte segmentPins[] = {1, 2, 3, 4, 5, 6, 7}; // these are the PINs of the ** Shift register **
+  bool resistorsOnSegments = false; // 'false' means resistors are on digit pins
+  byte hardwareConfig = COMMON_CATHODE; // See README.md for options
+  bool updateWithDelays = false; // Default 'false' is Recommended
+  bool leadingZeros = false; // Use 'true' if you'd like to keep the leading zeros
+  bool disableDecPoint = true; // Use 'true' if your decimal point doesn't exist or isn't connected
+
+  sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments, updateWithDelays, leadingZeros, disableDecPoint);
+  sevseg.setBrightness(90);
+}
+
+void displayLoop() {
+  sevseg.setNumber(uhm_count, 0);
+  sevseg.refreshDisplay(); // Must run repeatedly
+}
+
+//---------------------------//
+//------SERVO MOTOR----------//
+
+void setupServo() {
+  bellservo.Attach(11); // attaches the servo on pin 9 to the servo object
+}
+
+void servoLoop() {
+  bellservo.Update();
+}
+
+//---------------------------//
+//------BUTTON---------------//
+
+void setupButton() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+}
+
+void buttonLoop() {
+  currentState = digitalRead(BUTTON_PIN);
+
+  if (currentState == LOW && pressed == false) {
+    Serial.println("Button pressed!");
+    uhm_count++;
+    run_servo = true;
+    pressed = true;
+  }
+  else if (currentState == HIGH && pressed == true) {
+    pressed = false;
+  }
+}
