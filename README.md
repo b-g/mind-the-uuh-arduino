@@ -1,4 +1,4 @@
-# um-uh-ah-detector-arduino
+# Mind the “Uuh” for Arduino Nano 33 BLE Sense
 
 ## Install Edge Impulse library
 
