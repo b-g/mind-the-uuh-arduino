@@ -14,6 +14,7 @@ For the detection of the “uuh”s the device runs a custom trained  machine le
 
 Mind the “Uuh” is a fun project for Google’s [TensorFlow Microcontroller Challenge](https://experiments.withgoogle.com/tfmicrochallenge).
 
+
 ## 💻 Hardware pre-requisite (part list)
 
 Part list:
@@ -30,21 +31,18 @@ Part list:
 
 ## 📦 Software pre-requisite
 
-1. Add the Edge Impulse library through the Arduino IDE via:
-
-`Sketch` > `Include Library` > `Add .ZIP Library` ...
-
-See .ZIP file `ei-um-uh-ah-detector-...something.zip` in this repo.
-
+1. Add the Edge Impulse library through the Arduino IDE via: `Sketch` > `Include Library` > `Add .ZIP Library` ... see .zip file `ei-um-uh-ah-detector-...something.zip` in this repo.
 2. Upload the `mind-the-uuh-arduino.ino` onto your Arduino.
 3. Done :)
 
-## Training your own model
+
+## 💪 Training your own model
 
 The "uuh" model was completely trained with [Edge Impulse Studio](https://studio.edgeimpulse.com/) on a free account. If you want to train your own hotword, we recommend following carefully the super great [Responding to your voice](https://docs.edgeimpulse.com/docs/responding-to-your-voice) video tutorial. You will have to prepare ca. 1500 samples of 1 sec duration as mono .wav files of 16000 hz for the training.
 
+
 ## Acknowledgment
 
-- Training of the model: [Edge Impulse Studio](https://studio.edgeimpulse.com/) 
+- Training of the model: [Edge Impulse Studio](https://studio.edgeimpulse.com/)
 - Understanding how to train the model: Edge Impulse Tutorial [Responding to your voice](https://docs.edgeimpulse.com/docs/responding-to-your-voice)
 - Web App: based on Edge Impulse example [Demo-Shower-Timer]( https://github.com/edgeimpulse/demo-shower-timer)
