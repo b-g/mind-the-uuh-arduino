@@ -24,8 +24,8 @@ Part list:
 - Servo: Tower Pro SG51R
 - Display: standart seven segment display (sourced via 74HC595 shift register)
 - Poti: 10 kΩ
-- Housing: 3d printed (PLA)
 - Stripboard: 70x90 mm
+- Housing: 3d printed PLA ([print your own device](https://www.thingiverse.com/thing:4910005))
 
 <img width="917" alt="Schaltplan" src="https://user-images.githubusercontent.com/22634579/125507002-233a45cb-7864-49ac-b12a-1f4a21d7f469.png">
 
