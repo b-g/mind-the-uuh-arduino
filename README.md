@@ -1,4 +1,4 @@
-# Mind the “Uuh” for Arduino Nano 33 BLE Sense
+# Mind the “Uuh” – for Arduino Nano 33 BLE Sense
 
 By [Benedikt Groß](https://benedikt-gross.de), [Maik Groß](https://twitter.com/thatsmaik), [Thibault Durand](http://thibault-durand.fr/)
 
