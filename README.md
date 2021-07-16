@@ -21,10 +21,11 @@ Part list:
 
 - Microcontroller: Arduino Nano 33 BLE Sense
 - Bell: we are using a standard bike bell for handle bars
-- Servo: ???
-- Display: ???
-- Poti: ???
-- Housing: 3d printed
+- Servo: Tower Pro SG51R
+- Display: standart seven segment display (sourced via 74HC595 shift register)
+- Poti: 10 kΩ
+- Housing: 3d printed (PLA)
+- Stripboard: 70x90 mm
 
 <img width="917" alt="Schaltplan" src="https://user-images.githubusercontent.com/22634579/125507002-233a45cb-7864-49ac-b12a-1f4a21d7f469.png">
 
