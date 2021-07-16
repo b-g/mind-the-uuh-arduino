@@ -1,22 +1,17 @@
-//MAIK CODE
-//General-----------------
-
 int uhm_count = 0;
 
-//Button
-
+// Button
 const int BUTTON_PIN = 12;
 int currentState;
 int lastState = HIGH;
 bool pressed = false;
 
-//Poti
+// Poti
 int potPin = 6;
 int potiVal = 0;
 
-//Seven Segment Display
+// Seven Segment Display
 #include "SevSegShift.h"
-
 #define SHIFT_PIN_SHCP 10
 #define SHIFT_PIN_STCP 9
 #define SHIFT_PIN_DS   6
@@ -27,18 +22,16 @@ int potiVal = 0;
 */
 SevSegShift sevseg(SHIFT_PIN_DS, SHIFT_PIN_SHCP, SHIFT_PIN_STCP, 1, true);
 
-
-//Servo
+// Servo
 #include <Servo.h>
-
 bool run_servo = false;
 
 class BellServo
 {
-    Servo servo;              // the servo
-    int pos;              // current servo position
-    int increment;        // increment to move for each interval
-    unsigned long  updateInterval;      // interval between updates
+    Servo servo; // the servo
+    int pos; // current servo position
+    int increment; // increment to move for each interval
+    unsigned long  updateInterval; // interval between updates
     unsigned long lastUpdate; // last update of position
     bool cycle_ended = false;
     unsigned long cycleInterval = 1000;
@@ -76,28 +69,7 @@ class BellServo
           lastCycleUpdate = millis();
           run_servo = false;
         }
-        /*
-        if ((millis() - lastUpdate) > updateInterval) {
-          lastUpdate = millis();
-          pos += increment;
-          servo.write(0);
-          //Serial.println(pos);
-          if (pos >= 0) // end of sweep
-          {
-            // reverse direction
-            increment = -increment;
-            cycle_ended = true;
-            servo.write(80);
-          }
-          if (pos <= 0 && cycle_ended == true) // end of sweep
-          {
-            // reverse direction
-            increment = -increment;
-            run_servo = false;
-            cycle_ended = false;
-          }
-        }*/
-        
+
       } else {
         lastCycleUpdate = millis();
       }
@@ -107,7 +79,6 @@ class BellServo
 BellServo bellservo(1000);
 
 //--------------------------
-
 // LEDs
 #define PIN_LED     (13u)
 #define LED_BUILTIN PIN_LED
@@ -189,7 +160,7 @@ void loop()
     potiVal = analogRead(potPin);
     //------------------------------
 
-    
+
     bool m = microphone_inference_record();
     if (!m) {
         ei_printf("ERR: Failed to record audio...\n");
@@ -208,7 +179,7 @@ void loop()
     }
 
     if (++print_results >= (EI_CLASSIFIER_SLICES_PER_MODEL_WINDOW)) {
-      
+
         // flash LED if filler is detected
         float filler_classification = result.classification[0].value;
         if (filler_classification > 0.6) {
@@ -222,8 +193,7 @@ void loop()
           digitalWrite(LEDG, HIGH);
           digitalWrite(LEDB, HIGH);
         }
-        
-        
+
         // print the predictions
         ei_printf("Predictions ");
         ei_printf("( DSP: %d ms., Classification: %d ms., Anomaly: %d ms. )",
@@ -233,7 +203,7 @@ void loop()
             ei_printf("    %s: %.5f\n", result.classification[ix].label,
                       result.classification[ix].value);
         }
-        
+
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
         ei_printf("    anomaly score: %.3f\n", result.anomaly);
 #endif
