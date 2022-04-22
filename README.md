@@ -6,14 +6,11 @@ By [Benedikt Groß](https://benedikt-gross.de), [Maik Groß](https://twitter.com
 <img width="1198" alt="youtube-preview" src="https://user-images.githubusercontent.com/480224/125923954-603a0654-5f60-4715-a07b-063f04d0fd37.png">
 </a>
 
-Mind the “Uuh” is an experimental training device helping everyone to become a better public speaker. The cute little compagnon is listening  to your speech aiming to make you aware of “uuh” fill words, because  these fillers are easy to avoid once you start noticing them. Now  everytime you give a presentation and you say “uuh” – you will be aware  :)
+Mind the “Uuh” is an experimental training device helping everyone to become a better public speaker. The cute little companion is constantly listening to the sound of your voice, aiming to make you aware of “uuh” fill words. These fillers are easy to avoid, but you have to start noticing them. Now every time you give a presentation and you say “uuh” – you will be aware :)
 
-The prototype of Mind the “Uuh” was carefully designed as simple as  possible: There is a bell, a volume knob which controls how hard the  bell is hit or to turn it silent, a counter for your “uuh” stats and a  reset button. The product design is deliberately making references to a  classic alarm clock and a volume knob, to convey the nature of Mind the  “Uuh” intuitively.
+The prototype of Mind the “Uuh” was carefully designed as simple as possible: There is a bell, a volume knob which controls how hard the bell is hit or to turn it silent, a counter for your “uuh” stats and a reset button. The product design is deliberately making references to classic alarm clocks to convey the nature of Mind the “Uuh” intuitively.
 
-For the detection of the “uuh”s the device runs a custom trained  machine learning model, trained on 1500 samples of various durations  from 300ms to 1 sec. This proof of concept model will notice distinctive “uuh” fillers but ignore very short utterances. All speech data is  processed directly on device, nothing is sent to the cloud.
-
-Mind the “Uuh” is a fun project for Google’s [TensorFlow Microcontroller Challenge](https://experiments.withgoogle.com/tfmicrochallenge).
-
+For the detection of the “uuh”s the device runs a custom trained machine learning model, trained on 1500 samples of various durations from 300ms to 1 sec. This proof of concept model will notice distinctive “uuh” fillers but ignore very short utterances. All speech data is processed directly on device, nothing is sent to the cloud.
 
 ## 💻 Hardware pre-requisite (part list)
 
